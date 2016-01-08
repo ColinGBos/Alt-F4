@@ -9,6 +9,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import vapourdrive.furnaceevolved.Reference;
 
@@ -24,6 +26,7 @@ public class FE_Blocks
 		RegisterRecipes();
 	}
 
+	@SideOnly(Side.CLIENT)
 	public static void preInitModel()
 	{
 		ResourceLocation[] resourceVariants = new ResourceLocation[]
