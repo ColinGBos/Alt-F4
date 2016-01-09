@@ -1,12 +1,11 @@
 package vapourdrive.furnaceevolved.handlers;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.IGuiHandler;
 import vapourdrive.furnaceevolved.blocks.ContainerEvolvedFurnace;
 import vapourdrive.furnaceevolved.blocks.GuiFurnaceEvolved;
 import vapourdrive.furnaceevolved.blocks.TileEntityEvolvedFurnace;
+import cpw.mods.fml.common.network.IGuiHandler;
 
 public class GUIHandler implements IGuiHandler
 {
@@ -21,7 +20,7 @@ public class GUIHandler implements IGuiHandler
 		{
 			case EVOLVED_FURNACE:
 			{
-				return new ContainerEvolvedFurnace(player.inventory, (TileEntityEvolvedFurnace)world.getTileEntity(new BlockPos(x, y, z)));
+				return new ContainerEvolvedFurnace(player.inventory, (TileEntityEvolvedFurnace)world.getTileEntity(x, y, z));
 			}
 		}
 		throw new IllegalArgumentException("NO GUI WITH ID: " + ID);
@@ -34,7 +33,7 @@ public class GUIHandler implements IGuiHandler
 		{
 			case EVOLVED_FURNACE:
 			{
-				return new GuiFurnaceEvolved(player.inventory, (TileEntityEvolvedFurnace)world.getTileEntity(new BlockPos(x, y, z)));
+				return new GuiFurnaceEvolved(player.inventory, (TileEntityEvolvedFurnace)world.getTileEntity(x, y, z));
 			}
 		}
 		throw new IllegalArgumentException("NO GUI WITH ID: " + ID);

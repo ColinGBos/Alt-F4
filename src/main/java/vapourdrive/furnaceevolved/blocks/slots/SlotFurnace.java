@@ -1,5 +1,6 @@
 package vapourdrive.furnaceevolved.blocks.slots;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
@@ -57,16 +58,11 @@ public class SlotFurnace extends Slot
     {
         stack.getItem().onCreated(stack, thePlayer.worldObj, thePlayer);
 
-        net.minecraftforge.fml.common.FMLCommonHandler.instance().firePlayerSmeltedEvent(thePlayer, stack);
+        FMLCommonHandler.instance().firePlayerSmeltedEvent(thePlayer, stack);
 
         if (stack.getItem() == Items.iron_ingot)
         {
             this.thePlayer.triggerAchievement(AchievementList.acquireIron);
-        }
-
-        if (stack.getItem() == Items.cooked_fish)
-        {
-            this.thePlayer.triggerAchievement(AchievementList.cookFish);
         }
     }
 

@@ -32,7 +32,7 @@ public class FurnaceRecipeHandler
 				{
 					return recipe;
 				}
-				if (recipeInput.getItem() == stack.getItem() && recipeInput.getMetadata() == stack.getMetadata())
+				if (recipeInput.getItem() == stack.getItem() && recipeInput.getItemDamage() == stack.getItemDamage())
 				{
 					return recipe;
 				}

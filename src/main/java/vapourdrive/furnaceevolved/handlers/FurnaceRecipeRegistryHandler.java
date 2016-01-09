@@ -13,9 +13,6 @@ import java.util.Map.Entry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameData;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import org.apache.logging.log4j.Level;
 
@@ -27,6 +24,9 @@ import vapourdrive.furnaceevolved.recipes.FurnaceRecipeHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+
+import cpw.mods.fml.common.registry.GameData;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class FurnaceRecipeRegistryHandler
 {
@@ -43,7 +43,7 @@ public class FurnaceRecipeRegistryHandler
 			jsonFurnaceReference.createNewFile();
 			jsonFurnaceConfig.createNewFile();
 			FurnaceEvolved.log.log(Level.INFO, "Created File");
-			dumpArrayList = buildDumpRecipeArrayList(FurnaceRecipes.instance().getSmeltingList());
+			dumpArrayList = buildDumpRecipeArrayList(FurnaceRecipes.smelting().getSmeltingList());
 			String stream = gson.toJson(dumpArrayList);
 
 			FileWriter writer = new FileWriter(jsonFurnaceReference, false);
@@ -132,8 +132,8 @@ public class FurnaceRecipeRegistryHandler
 			{
 				FurnaceEvolved.log.log(Level.WARN, "There are multiple furnace recipes for: " + getMod(input) + ":" + geIdentifier(input));
 			}
-			float experience = FurnaceRecipes.instance().getSmeltingExperience(output);
-			boolean ignoreInputMeta = input.getMetadata() == 32767;
+			float experience = FurnaceRecipes.smelting().func_151398_b(output);
+			boolean ignoreInputMeta = input.getItemDamage() == 32767;
 			String inputTag = null;
 			String outputTag = null;
 			if (input.hasTagCompound())
@@ -144,8 +144,8 @@ public class FurnaceRecipeRegistryHandler
 			{
 				outputTag = output.getTagCompound().toString();
 			}
-			DumpedRecipe recipe = new DumpedRecipe(getMod(input), geIdentifier(input), input.getMetadata(), ignoreInputMeta,
-					input.stackSize, inputTag, getMod(output), geIdentifier(output), output.getMetadata(), output.stackSize, outputTag,
+			DumpedRecipe recipe = new DumpedRecipe(getMod(input), geIdentifier(input), input.getItemDamage(), ignoreInputMeta,
+					input.stackSize, inputTag, getMod(output), geIdentifier(output), output.getItemDamage(), output.stackSize, outputTag,
 					experience, true);
 			returnArray.add(recipe);
 			recipes.put(getMod(input) + ":" + geIdentifier(input), recipe);
@@ -153,7 +153,6 @@ public class FurnaceRecipeRegistryHandler
 		return returnArray;
 	}
 
-	@SuppressWarnings("deprecation")
 	private static String geIdentifier(ItemStack stack)
 	{
 		Item item = stack.getItem();
@@ -162,9 +161,8 @@ public class FurnaceRecipeRegistryHandler
 
 	public static String getMod(ItemStack stack)
 	{
-		ResourceLocation fullname = GameData.getItemRegistry().getNameForObject(stack.getItem());
-		String name = fullname.toString();
-		return (name).substring(0, (name).indexOf(':'));
+		String fullname = GameData.getItemRegistry().getNameForObject(stack.getItem());
+		return (fullname).substring(0, (fullname).indexOf(':'));
 	}
 
 }

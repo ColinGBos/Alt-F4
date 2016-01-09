@@ -1,29 +1,21 @@
 package vapourdrive.furnaceevolved.blocks;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.tileentity.TileEntityLockable;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
 import vapourdrive.furnaceevolved.items.IExperienceStorage;
 import vapourdrive.furnaceevolved.recipes.FurnaceRecipeHandler;
 
-public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITickable, ISidedInventory
+public class TileEntityEvolvedFurnace extends TileEntity implements ISidedInventory
 {
 	private ItemStack[] furnaceItemStacks = new ItemStack[10];
 	private int furnaceBurnTime;
@@ -76,7 +68,7 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 	}
 
 	@Override
-	public ItemStack removeStackFromSlot(int index)
+	public ItemStack getStackInSlotOnClosing(int index)
 	{
 		if (this.furnaceItemStacks[index] != null)
 		{
@@ -93,7 +85,7 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack)
 	{
-		boolean flag = stack != null && stack.isItemEqual(this.furnaceItemStacks[index])
+		boolean flag = stack != null && this.furnaceItemStacks[index] != null && stack.isItemEqual(this.furnaceItemStacks[index])
 				&& ItemStack.areItemStackTagsEqual(stack, this.furnaceItemStacks[index]);
 		this.furnaceItemStacks[index] = stack;
 
@@ -124,8 +116,8 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player)
 	{
-		return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D,
-				(double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+		return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : player.getDistanceSq(
+				(double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
 
 	}
 
@@ -150,7 +142,6 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 		return false;
 	}
 
-	@Override
 	public int getField(int id)
 	{
 		switch (id)
@@ -164,14 +155,12 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 			case 3:
 				return this.itemCookTime;
 			case 4:
-				return (int)this.experienceStored;
+				return (int) this.experienceStored;
 			default:
 				return 0;
 		}
 	}
-	
 
-	@Override
 	public void setField(int id, int value)
 	{
 		switch (id)
@@ -193,13 +182,11 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 		}
 	}
 
-	@Override
 	public int getFieldCount()
 	{
 		return 5;
 	}
 
-	@Override
 	public void clear()
 	{
 		for (int i = 0; i < this.furnaceItemStacks.length; ++i)
@@ -208,7 +195,6 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 		}
 	}
 
-	@Override
 	public String getName()
 	{
 		if (this.hasCustomName())
@@ -221,29 +207,22 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 		}
 	}
 
-	@Override
 	public boolean hasCustomName()
 	{
 		return this.furnaceCustomName != null && this.furnaceCustomName.length() > 0;
 	}
 
 	@Override
-	public IChatComponent getDisplayName()
+	public int[] getAccessibleSlotsFromSide(int side)
 	{
-		return super.getDisplayName();
-	}
-
-	@Override
-	public int[] getSlotsForFace(EnumFacing side)
-	{
-		if (side == EnumFacing.DOWN)
+		if (side == 0)
 		{
 			return new int[]
 			{
 					4, 5, 6, 7, 9
 			};
 		}
-		else if (side == EnumFacing.UP)
+		else if (side == 1)
 		{
 			return new int[]
 			{
@@ -260,9 +239,9 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 	}
 
 	@Override
-	public boolean canInsertItem(int index, ItemStack stack, EnumFacing side)
+	public boolean canInsertItem(int index, ItemStack stack, int side)
 	{
-		if (side == EnumFacing.DOWN)
+		if (side == 0)
 		{
 			return false;
 		}
@@ -273,7 +252,7 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 				return true;
 			}
 		}
-		else if(index == 8 && stack.getItem() instanceof IExperienceStorage)
+		else if (index == 8 && stack.getItem() instanceof IExperienceStorage)
 		{
 			return true;
 		}
@@ -285,9 +264,9 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 	}
 
 	@Override
-	public boolean canExtractItem(int index, ItemStack stack, EnumFacing side)
+	public boolean canExtractItem(int index, ItemStack stack, int side)
 	{
-		if (side == EnumFacing.DOWN)
+		if (side == 0)
 		{
 			if (index >= 4)
 			{
@@ -302,9 +281,9 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 		this.furnaceCustomName = displayName;
 	}
 
-	public static boolean isBurning(IInventory tileFurnace)
+	public boolean isBurning(IInventory tileFurnace)
 	{
-		return tileFurnace.getField(0) > 0;
+		return this.getField(0) > 0;
 	}
 
 	public boolean isBurning()
@@ -313,7 +292,7 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 	}
 
 	@Override
-	public void update()
+	public void updateEntity()
 	{
 		boolean isBurning = this.furnaceBurnTime > 0;
 		boolean requiresUpdate = false;
@@ -325,9 +304,10 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 
 		if (!this.worldObj.isRemote)
 		{
-			if(this.furnaceItemStacks[9] == null && this.furnaceItemStacks[8] != null && this.furnaceItemStacks[8].getItem() instanceof IExperienceStorage)
+			if (this.furnaceItemStacks[9] == null && this.furnaceItemStacks[8] != null
+					&& this.furnaceItemStacks[8].getItem() instanceof IExperienceStorage)
 			{
-				if(this.getField(4) >= 10f)
+				if (this.getField(4) >= 10f)
 				{
 					ItemStack crystal = this.furnaceItemStacks[8].copy();
 					IExperienceStorage xpStorage = (IExperienceStorage) crystal.getItem();
@@ -383,12 +363,20 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 			if (isBurning != this.isBurning())
 			{
 				requiresUpdate = true;
-				BlockEvolvedFurnace.setState(this.isBurning(), this.worldObj, this.pos);
 			}
 		}
 		if (requiresUpdate)
 		{
 			this.markDirty();
+			int meta = this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+			if(this.isBurning() && meta < 6)
+			{
+				this.worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta + 6, 3);
+			}
+			else if(!this.isBurning() && meta >= 6)
+			{
+				this.worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta - 6, 3);
+			}
 		}
 	}
 
@@ -479,8 +467,9 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 				this.furnaceItemStacks[7].stackSize += itemstack.stackSize;
 			}
 
-			if (this.furnaceItemStacks[0].getItem() == Item.getItemFromBlock(Blocks.sponge) && this.furnaceItemStacks[0].getMetadata() == 1
-					&& this.furnaceItemStacks[2] != null && this.furnaceItemStacks[2].getItem() == Items.bucket)
+			if (this.furnaceItemStacks[0].getItem() == Item.getItemFromBlock(Blocks.sponge)
+					&& this.furnaceItemStacks[0].getItemDamage() == 1 && this.furnaceItemStacks[2] != null
+					&& this.furnaceItemStacks[2].getItem() == Items.bucket)
 			{
 				this.furnaceItemStacks[2] = new ItemStack(Items.water_bucket);
 			}
@@ -540,25 +529,18 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 		return false;
 	}
 
-	@Override
-	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
-	{
-		return new ContainerEvolvedFurnace(playerInventory, this);
-	}
-
-	@Override
 	public String getGuiID()
 	{
 		return "Evolved Furnace";
 	}
 
 	@Override
-	public void openInventory(EntityPlayer player)
+	public void openInventory()
 	{
 	}
 
 	@Override
-	public void closeInventory(EntityPlayer player)
+	public void closeInventory()
 	{
 	}
 
@@ -592,6 +574,7 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 		}
 	}
 
+	@Override
 	public void writeToNBT(NBTTagCompound compound)
 	{
 		super.writeToNBT(compound);
@@ -622,9 +605,15 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 	}
 
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate)
+	public String getInventoryName()
 	{
-		return (oldState.getBlock() != newSate.getBlock());
+		return this.hasCustomInventoryName() ? this.furnaceCustomName : this.getGuiID();
 	}
 
+	@Override
+	public boolean hasCustomInventoryName()
+	{
+		return this.furnaceCustomName != null && this.furnaceCustomName.length() > 0;
+	}
+	
 }

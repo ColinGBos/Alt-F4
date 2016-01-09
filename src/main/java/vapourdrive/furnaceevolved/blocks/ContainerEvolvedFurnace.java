@@ -4,28 +4,27 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnaceFuel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import vapourdrive.furnaceevolved.blocks.slots.SlotExperience;
 import vapourdrive.furnaceevolved.blocks.slots.SlotFurnace;
+import vapourdrive.furnaceevolved.blocks.slots.SlotFurnaceFuel;
 import vapourdrive.furnaceevolved.items.IExperienceStorage;
 import vapourdrive.furnaceevolved.recipes.FurnaceRecipeHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerEvolvedFurnace extends Container
 {
-	private final IInventory tileFurnace;
+	private final TileEntityEvolvedFurnace tileFurnace;
 	private int furnaceBurnTime;
 	private int currentItemBurnTime;
 	private int timeBurning;
 	private int itemCookTime;
 	private int experience;
 
-	public ContainerEvolvedFurnace(InventoryPlayer playerInventory, IInventory tileEntityEvolvedFurnace)
+	public ContainerEvolvedFurnace(InventoryPlayer playerInventory, TileEntityEvolvedFurnace tileEntityEvolvedFurnace)
 	{
 		this.tileFurnace = tileEntityEvolvedFurnace;
 		this.addSlotToContainer(new Slot(tileEntityEvolvedFurnace, 1, 17, 17));
@@ -51,13 +50,6 @@ public class ContainerEvolvedFurnace extends Container
 			this.addSlotToContainer(new Slot(playerInventory, k, 8 + k * 18, 142));
 		}
 
-	}
-
-	@Override
-	public void onCraftGuiOpened(ICrafting listener)
-	{
-		super.onCraftGuiOpened(listener);
-		listener.sendAllWindowProperties(this, this.tileFurnace);
 	}
 
 	@Override

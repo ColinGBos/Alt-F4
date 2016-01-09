@@ -2,21 +2,25 @@ package vapourdrive.furnaceevolved.items;
 
 import java.util.List;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import vapourdrive.furnaceevolved.Reference;
 import vapourdrive.furnaceevolved.utils.RandomUtils;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ExperienceCrystal extends Item implements IExperienceStorage
 {
 	public static final String TAG_EXPERIENCE = "FurnaceEvolved.Experience";
+	public IIcon[] icons;
 
 	public ExperienceCrystal()
 	{
@@ -25,6 +29,34 @@ public class ExperienceCrystal extends Item implements IExperienceStorage
 		this.setUnlocalizedName("ExperienceCrystal");
 		this.setMaxStackSize(1);
 		GameRegistry.registerItem(this, "experience_crystal");
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister register)
+	{
+		icons = new IIcon[16];
+		for (int i = 0; i <=15; i++)
+		{
+			icons[i] = register.registerIcon(Reference.ResourcePath + "ExperienceCrystal_" + i);
+		}
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIconIndex(ItemStack stack)
+	{
+		ExperienceCrystal crystal = (ExperienceCrystal) stack.getItem();
+		int level = (int) (15 * (crystal.getCurrentExperienceStored(stack) / crystal.getMaxExperienceStored(stack)));
+		if(level > 15)
+		{
+			level = 15;
+		}
+		if (level < 0)
+		{
+			level = 0;
+		}
+		return icons[level];
 	}
 
 	@Override
@@ -69,11 +101,11 @@ public class ExperienceCrystal extends Item implements IExperienceStorage
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
 	{
 		float experience = this.extractExperience(stack, getMaxExperienceStored(stack), false);
-		if(experience > 0f)
+		if (experience > 0f)
 		{
 			world.playSoundAtEntity(player, "random.orb", (world.rand.nextFloat() * 0.2F) + 0.8F, (world.rand.nextFloat() * 0.4F) + 0.6F);
 		}
-		player.addExperience((int)experience);
+		player.addExperience((int) experience);
 		return stack;
 	}
 
@@ -93,7 +125,8 @@ public class ExperienceCrystal extends Item implements IExperienceStorage
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean useExtraInformation)
 	{
-		list.add(EnumChatFormatting.GREEN + "" + String.format("%.2f", this.getCurrentExperienceStored(stack)) + " " + StatCollector.translateToLocal("phrase.evolvedfurnace.experiencestored"));
+		list.add(EnumChatFormatting.GREEN + "" + String.format("%.2f", this.getCurrentExperienceStored(stack)) + " "
+				+ StatCollector.translateToLocal("phrase.evolvedfurnace.experiencestored"));
 	}
 
 }

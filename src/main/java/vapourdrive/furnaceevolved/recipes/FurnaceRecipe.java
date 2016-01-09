@@ -2,8 +2,8 @@ package vapourdrive.furnaceevolved.recipes;
 
 import java.util.ArrayList;
 
-import vapourdrive.furnaceevolved.utils.RandomUtils;
 import net.minecraft.item.ItemStack;
+import vapourdrive.furnaceevolved.utils.RandomUtils;
 
 public class FurnaceRecipe
 {
