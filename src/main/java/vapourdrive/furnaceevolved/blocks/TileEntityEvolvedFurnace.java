@@ -592,6 +592,7 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 		}
 	}
 
+	@Override
 	public void writeToNBT(NBTTagCompound compound)
 	{
 		super.writeToNBT(compound);

@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import vapourdrive.furnaceevolved.proxies.CommonProxy;
 
-@Mod(modid = Reference.ModID, version = Reference.Version, name = Reference.Name)
+@Mod(modid = Reference.ModID, version = Reference.Version, name = Reference.Name, dependencies = "after:Thaumcraft;after:GardenContainers;after:ThermalFoundation;after:ThermalExpansion;after:RedstoneArsenal;after:GardenTrees;after:GardenStuff;after:GardenCore")
 public class FurnaceEvolved
 {
 	@Instance(Reference.ModID)

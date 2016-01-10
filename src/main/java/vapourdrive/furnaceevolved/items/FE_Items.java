@@ -60,7 +60,7 @@ public class FE_Items
 	{
 		ItemStack cystal = new ItemStack(xpCrystal);
 		RandomUtils.getNBT(cystal).setFloat(ExperienceCrystal.TAG_EXPERIENCE, 0.0f);
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(xpCrystal), new Object[]
+		GameRegistry.addRecipe(new ShapedOreRecipe(cystal, new Object[]
 		{
 				" g ", "geg", " g ", 'g', "blockGlass", 'e', Items.ender_pearl
 		}));
