@@ -12,8 +12,9 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartedEvent;
 
-@Mod(modid = Reference.ModID, version = Reference.Version, name = Reference.Name, dependencies = "after:Thaumcraft;after:GardenContainers;after:ThermalFoundation;after:ThermalExpansion;after:RedstoneArsenal;after:GardenTrees;after:GardenStuff;after:GardenCore")
+@Mod(modid = Reference.ModID, version = Reference.Version, name = Reference.Name, dependencies = "after:MineTweaker")
 public class FurnaceEvolved
 {
 	@Instance(Reference.ModID)
@@ -26,21 +27,28 @@ public class FurnaceEvolved
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		FurnaceEvolved.log.log(Level.INFO, "Initiation preInit");
+		FurnaceEvolved.log.log(Level.INFO, "Initiating preInit");
 		proxy.preInit(event);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		FurnaceEvolved.log.log(Level.INFO, "Initiation Init");
+		FurnaceEvolved.log.log(Level.INFO, "Initiating Init");
 		proxy.Init(event);
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		FurnaceEvolved.log.log(Level.INFO, "Initiation postInit");
+		FurnaceEvolved.log.log(Level.INFO, "Initiating postInit");
 		proxy.postInit(event);
+	}
+	
+	@EventHandler
+	public void serverStarted(FMLServerStartedEvent event)
+	{
+		FurnaceEvolved.log.log(Level.INFO, "Initiating serverStart");
+		proxy.serverStarted(event);
 	}
 }

@@ -2,8 +2,6 @@ package vapourdrive.furnaceevolved.proxies;
 
 import java.io.File;
 
-import org.apache.logging.log4j.Level;
-
 import vapourdrive.furnaceevolved.FurnaceEvolved;
 import vapourdrive.furnaceevolved.blocks.FE_Blocks;
 import vapourdrive.furnaceevolved.config.ConfigHandler;
@@ -13,6 +11,7 @@ import vapourdrive.furnaceevolved.items.FE_Items;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
 public class CommonProxy
@@ -35,7 +34,11 @@ public class CommonProxy
 
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		FurnaceEvolved.log.log(Level.INFO, "Initiation CommonProxy postInit");
+		
+	}
+
+	public void serverStarted(FMLServerStartedEvent event)
+	{
 		FurnaceRecipeRegistryHandler.initialWrite(ConfigPath);
 		FurnaceRecipeRegistryHandler.postInit(ConfigPath);
 	}
