@@ -7,14 +7,14 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import vapourdrive.furnaceevolved.proxies.CommonProxy;
 
-@Mod(modid = Reference.ModID, version = Reference.Version, name = Reference.Name, dependencies = "after:Thaumcraft;after:GardenContainers;after:ThermalFoundation;after:ThermalExpansion;after:RedstoneArsenal;after:GardenTrees;after:GardenStuff;after:GardenCore")
+@Mod(modid = Reference.ModID, version = Reference.Version, name = Reference.Name, dependencies = "after:MineTweaker")
 public class FurnaceEvolved
 {
 	@Instance(Reference.ModID)
@@ -27,21 +27,24 @@ public class FurnaceEvolved
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		FurnaceEvolved.log.log(Level.INFO, "Initiation preInit");
 		proxy.preInit(event);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		FurnaceEvolved.log.log(Level.INFO, "Initiation Init");
 		proxy.Init(event);
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		FurnaceEvolved.log.log(Level.INFO, "Initiation postInit");
 		proxy.postInit(event);
+	}
+	
+	@EventHandler
+	public void serverStarted(FMLServerStartedEvent event)
+	{
+		proxy.serverStarted(event);
 	}
 }

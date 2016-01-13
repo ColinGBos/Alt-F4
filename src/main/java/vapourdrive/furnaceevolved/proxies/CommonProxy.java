@@ -5,6 +5,7 @@ import java.io.File;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 import org.apache.logging.log4j.Level;
@@ -22,6 +23,7 @@ public class CommonProxy
 	
 	public void preInit(FMLPreInitializationEvent event)
 	{
+		FurnaceEvolved.log.log(Level.INFO, "Initiating preInit");
 		ConfigPath = event.getModConfigurationDirectory();
 		ConfigHandler.preInit(ConfigPath);
 		NetworkRegistry.INSTANCE.registerGuiHandler(FurnaceEvolved.Instance, new GUIHandler());
@@ -31,12 +33,17 @@ public class CommonProxy
 	
 	public void Init(FMLInitializationEvent event)
 	{
-		
+		FurnaceEvolved.log.log(Level.INFO, "Initiating Init");
 	}
 
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		FurnaceEvolved.log.log(Level.INFO, "Initiation CommonProxy postInit");
+		FurnaceEvolved.log.log(Level.INFO, "Initiating postInit");
+	}
+
+	public void serverStarted(FMLServerStartedEvent event)
+	{
+		FurnaceEvolved.log.log(Level.INFO, "Initiating OnServerStart");
 		FurnaceRecipeRegistryHandler.initialWrite(ConfigPath);
 		FurnaceRecipeRegistryHandler.postInit(ConfigPath);
 	}
