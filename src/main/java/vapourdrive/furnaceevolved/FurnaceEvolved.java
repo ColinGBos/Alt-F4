@@ -12,7 +12,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartedEvent;
+import cpw.mods.fml.common.event.FMLServerAboutToStartEvent;
 
 @Mod(modid = Reference.ModID, version = Reference.Version, name = Reference.Name, dependencies = "after:MineTweaker")
 public class FurnaceEvolved
@@ -46,7 +46,7 @@ public class FurnaceEvolved
 	}
 	
 	@EventHandler
-	public void serverStarted(FMLServerStartedEvent event)
+	public void serverStarted(FMLServerAboutToStartEvent event)
 	{
 		FurnaceEvolved.log.log(Level.INFO, "Initiating serverStart");
 		proxy.serverStarted(event);

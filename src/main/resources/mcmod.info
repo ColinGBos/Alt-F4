@@ -1,9 +1,9 @@
 [
 {
-  "modid": "furnaceevolved",
-  "name": "Alt-F4",
-  "description": "Alternative Furnaces Full of Fanciful Features",
-  "version": "1.7.10-0.0.2.6",
+  "modid": "FurnaceEvolved",
+  "name": "Alt F4",
+  "description": "Simple upgrade to the vanilla furnace, with experience management, and a customizable smelting list",
+  "version": "1.7.10-0.0.2.7",
   "mcversion": "1.7.10",
   "url": "",
   "updateUrl": "",

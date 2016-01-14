@@ -11,7 +11,7 @@ import vapourdrive.furnaceevolved.items.FE_Items;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartedEvent;
+import cpw.mods.fml.common.event.FMLServerAboutToStartEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
 public class CommonProxy
@@ -37,7 +37,7 @@ public class CommonProxy
 		
 	}
 
-	public void serverStarted(FMLServerStartedEvent event)
+	public void serverStarted(FMLServerAboutToStartEvent event)
 	{
 		FurnaceRecipeRegistryHandler.initialWrite(ConfigPath);
 		FurnaceRecipeRegistryHandler.postInit(ConfigPath);
