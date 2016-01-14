@@ -21,7 +21,7 @@ public class FurnaceRecipeHandler
 
 	private static FurnaceRecipe getRecipe(ItemStack stack)
 	{
-		if (stack != null)
+		if (stack != null && furnaceRecipe != null)
 		{
 			Iterator iterator = furnaceRecipe.iterator();
 			while (iterator.hasNext())

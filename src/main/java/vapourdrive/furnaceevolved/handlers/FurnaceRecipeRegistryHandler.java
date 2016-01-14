@@ -128,7 +128,7 @@ public class FurnaceRecipeRegistryHandler
 			Entry entry = (Entry) iterator.next();
 			ItemStack input = (ItemStack) entry.getKey();
 			ItemStack output = (ItemStack) entry.getValue();
-			if (recipes.containsKey(getMod(output) + ":" + geIdentifier(output)))
+			if (recipes.containsKey(getMod(output) + ":" + geIdentifier(output) + output.getMetadata()))
 			{
 				FurnaceEvolved.log.log(Level.WARN, "There are multiple furnace recipes for: " + getMod(input) + ":" + geIdentifier(input));
 			}
@@ -148,7 +148,7 @@ public class FurnaceRecipeRegistryHandler
 					input.stackSize, inputTag, getMod(output), geIdentifier(output), output.getMetadata(), output.stackSize, outputTag,
 					experience, true);
 			returnArray.add(recipe);
-			recipes.put(getMod(input) + ":" + geIdentifier(input), recipe);
+			recipes.put(getMod(input) + ":" + geIdentifier(input) + input.getMetadata(), recipe);
 		}
 		return returnArray;
 	}

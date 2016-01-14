@@ -7,14 +7,14 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
+import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import vapourdrive.furnaceevolved.proxies.CommonProxy;
 
-@Mod(modid = Reference.ModID, version = Reference.Version, name = Reference.Name, dependencies = "after:MineTweaker")
+@Mod(modid = Reference.ModID, version = Reference.Version, name = Reference.Name, dependencies = "before:JustEnoughItems;after:MineTweaker")
 public class FurnaceEvolved
 {
 	@Instance(Reference.ModID)
@@ -43,7 +43,7 @@ public class FurnaceEvolved
 	}
 	
 	@EventHandler
-	public void serverStarted(FMLServerStartedEvent event)
+	public void serverStarted(FMLServerAboutToStartEvent event)
 	{
 		proxy.serverStarted(event);
 	}
