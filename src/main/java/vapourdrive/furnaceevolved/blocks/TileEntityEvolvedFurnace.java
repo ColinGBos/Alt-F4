@@ -342,8 +342,7 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 				this.setInventorySlotContents(0, this.furnaceItemStacks[1]);
 				this.setInventorySlotContents(1, null);
 			}
-			else if (this.furnaceItemStacks[1] != null && this.furnaceItemStacks[0] != null
-					&& this.furnaceItemStacks[1].getItem() == this.furnaceItemStacks[0].getItem())
+			else if (areStackCompatible(this.furnaceItemStacks[0], this.furnaceItemStacks[1]))
 			{
 				int tomove = Math.min(this.furnaceItemStacks[1].stackSize, this.furnaceItemStacks[0].getMaxStackSize()
 						- this.furnaceItemStacks[0].stackSize);
@@ -359,8 +358,7 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 				this.setInventorySlotContents(2, this.furnaceItemStacks[3]);
 				this.setInventorySlotContents(3, null);
 			}
-			else if (this.furnaceItemStacks[3] != null && this.furnaceItemStacks[2] != null
-					&& this.furnaceItemStacks[3].getItem() == this.furnaceItemStacks[2].getItem())
+			else if (areStackCompatible(this.furnaceItemStacks[2], this.furnaceItemStacks[3]))
 			{
 				int tomove = Math.min(this.furnaceItemStacks[3].stackSize, this.furnaceItemStacks[2].getMaxStackSize()
 						- this.furnaceItemStacks[2].stackSize);
@@ -446,7 +444,7 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 			{
 				this.furnaceItemStacks[4] = itemstack.copy();
 			}
-			else if (this.furnaceItemStacks[4].getItem() == itemstack.getItem()
+			else if (areStackCompatible(this.furnaceItemStacks[4], itemstack)
 					&& this.furnaceItemStacks[4].stackSize + itemstack.stackSize <= this.furnaceItemStacks[4].getMaxStackSize())
 			{
 				this.furnaceItemStacks[4].stackSize += itemstack.stackSize;
@@ -455,7 +453,7 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 			{
 				this.furnaceItemStacks[5] = itemstack.copy();
 			}
-			else if (this.furnaceItemStacks[5].getItem() == itemstack.getItem()
+			else if (areStackCompatible(this.furnaceItemStacks[5], itemstack)
 					&& this.furnaceItemStacks[5].stackSize + itemstack.stackSize <= this.furnaceItemStacks[5].getMaxStackSize())
 			{
 				this.furnaceItemStacks[5].stackSize += itemstack.stackSize;
@@ -464,7 +462,7 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 			{
 				this.furnaceItemStacks[6] = itemstack.copy();
 			}
-			else if (this.furnaceItemStacks[6].getItem() == itemstack.getItem()
+			else if (areStackCompatible(this.furnaceItemStacks[6], itemstack)
 					&& this.furnaceItemStacks[6].stackSize + itemstack.stackSize <= this.furnaceItemStacks[6].getMaxStackSize())
 			{
 				this.furnaceItemStacks[6].stackSize += itemstack.stackSize;
@@ -473,7 +471,7 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 			{
 				this.furnaceItemStacks[7] = itemstack.copy();
 			}
-			else if (this.furnaceItemStacks[7].getItem() == itemstack.getItem()
+			else if (areStackCompatible(this.furnaceItemStacks[7], itemstack)
 					&& this.furnaceItemStacks[7].stackSize + itemstack.stackSize <= this.furnaceItemStacks[7].getMaxStackSize())
 			{
 				this.furnaceItemStacks[7].stackSize += itemstack.stackSize;
@@ -512,25 +510,25 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 			{
 				return true;
 			}
-			if (this.furnaceItemStacks[4].getItem() == itemstack.getItem()
+			if (areStackCompatible(this.furnaceItemStacks[4], itemstack)
 					&& furnaceItemStacks[4].stackSize < furnaceItemStacks[4].getMaxStackSize())
 			{
 				int result = furnaceItemStacks[4].stackSize + itemstack.stackSize;
 				return result <= getInventoryStackLimit() && result <= this.furnaceItemStacks[4].getMaxStackSize();
 			}
-			else if (this.furnaceItemStacks[5].getItem() == itemstack.getItem()
+			else if (areStackCompatible(this.furnaceItemStacks[5], itemstack)
 					&& furnaceItemStacks[5].stackSize < furnaceItemStacks[5].getMaxStackSize())
 			{
 				int result = furnaceItemStacks[5].stackSize + itemstack.stackSize;
 				return result <= getInventoryStackLimit() && result <= this.furnaceItemStacks[5].getMaxStackSize();
 			}
-			else if (this.furnaceItemStacks[6].getItem() == itemstack.getItem()
+			else if (areStackCompatible(this.furnaceItemStacks[6], itemstack)
 					&& furnaceItemStacks[6].stackSize < furnaceItemStacks[6].getMaxStackSize())
 			{
 				int result = furnaceItemStacks[6].stackSize + itemstack.stackSize;
 				return result <= getInventoryStackLimit() && result <= this.furnaceItemStacks[6].getMaxStackSize();
 			}
-			else if (this.furnaceItemStacks[7].getItem() == itemstack.getItem()
+			else if (areStackCompatible(this.furnaceItemStacks[7], itemstack)
 					&& furnaceItemStacks[7].stackSize < furnaceItemStacks[7].getMaxStackSize())
 			{
 				int result = furnaceItemStacks[7].stackSize + itemstack.stackSize;
@@ -626,6 +624,27 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate)
 	{
 		return (oldState.getBlock() != newSate.getBlock());
+	}
+	
+	public boolean areStackCompatible(ItemStack stack1, ItemStack stack2)
+	{
+		if(stack1 != null && stack2 != null)
+		{
+			if(stack1.getItem() != null && stack2.getItem() != null)
+			{
+				if(stack1.getItem() == stack2.getItem())
+				{
+					if (!stack1.getHasSubtypes() || stack1.getMetadata() == stack2.getMetadata())
+					{
+						if(ItemStack.areItemStackTagsEqual(stack1, stack2))
+						{
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 }

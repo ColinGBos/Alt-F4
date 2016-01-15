@@ -25,6 +25,8 @@ public class RandomUtils
 		{
 			FurnaceEvolved.log.log(Level.INFO, "Attempt to find: " + ModId + ", " + ItemStackName + " Failed");
 		}
+		stack.stackSize = StackSize;
+
 		return stack;
 
 	}
