@@ -14,7 +14,7 @@ public class FurnaceConfig
 		config = new Configuration(file);
 		config.load();
 		
-		maxXP = config.getFloat("CrystalMaxExperience", "Settings", 200f, 1f, 1000f, "Max Experience Capacity in the experience Crystal");
+		maxXP = config.getFloat("CrystalMaxExperience", "Settings", 200f, 10f, 10000f, "Max Experience Capacity in the experience Crystal");
 		
 		config.save();
 		
