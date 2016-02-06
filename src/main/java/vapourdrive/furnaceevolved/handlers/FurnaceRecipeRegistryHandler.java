@@ -93,8 +93,8 @@ public class FurnaceRecipeRegistryHandler
 					FurnaceRecipe furnaceRecipe = new FurnaceRecipe(name, input, dumpRecipe.getInputIgnoresMeta(), output,
 							dumpRecipe.getExperience(), dumpRecipe.getBurnTime());
 					recipeList.add(furnaceRecipe);
-					registeredRecipes.add(dumpRecipe.getInputStackMod() + ":" + dumpRecipe.getInputStackName());
 				}
+				registeredRecipes.add(dumpRecipe.getInputStackMod() + ":" + dumpRecipe.getInputStackName());
 			}
 		}
 		Iterator iterator2 = dumpArrayList.iterator();

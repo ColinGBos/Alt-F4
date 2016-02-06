@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vapourdrive.furnaceevolved.config.FurnaceConfig;
 import vapourdrive.furnaceevolved.utils.RandomUtils;
 
 public class ExperienceCrystal extends Item implements IExperienceStorage
@@ -30,7 +31,7 @@ public class ExperienceCrystal extends Item implements IExperienceStorage
 	@Override
 	public float getMaxExperienceStored(ItemStack stack)
 	{
-		return 200f;
+		return FurnaceConfig.maxXP;
 	}
 
 	@Override

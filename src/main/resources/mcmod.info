@@ -3,7 +3,7 @@
   "modid": "FurnaceEvolved",
   "name": "Alt F4",
   "description": "Simple upgrade to the vanilla furnace, with experience management, and a customizable smelting list",
-  "version": "1.8.9-0.0.2.7",
+  "version": "1.8.9-0.0.2.8",
   "mcversion": "1.8.9",
   "url": "",
   "updateUrl": "",

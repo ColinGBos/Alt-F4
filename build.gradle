@@ -20,7 +20,7 @@ plugins {
     id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
 */
-version = "1.8.9-0.0.2.7"
+version = "1.8.9-0.0.2.8"
 group= "vapourdrive.furnace" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Alt-F4"
 
