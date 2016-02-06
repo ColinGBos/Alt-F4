@@ -266,7 +266,7 @@ public class TileEntityEvolvedFurnace extends TileEntityLockable implements ITic
 		{
 			return false;
 		}
-		if (TileEntityFurnace.isItemFuel(stack))
+		else if (side != EnumFacing.UP && TileEntityFurnace.isItemFuel(stack))
 		{
 			if (index == 2 || index == 3)
 			{
